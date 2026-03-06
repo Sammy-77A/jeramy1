@@ -1,0 +1,46 @@
+# Protect sensitive files
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files .env.php>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Block access to config directory
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /jeramy1/
+
+# --- STATIC FILES: serve directly ---
+# Keep index.html as the homepage
+RewriteRule ^$ index.html [L]
+
+# Don't rewrite existing files/directories (images, CSS, JS, static assets, PHPMailer)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# --- BACKWARD COMPATIBILITY SHIMS ---
+# M-Pesa callbacks must remain accessible at original paths
+# These are handled by the shim files that exist as real files
+# (callback_url.php, callback_handler.php — they forward to the controller)
+
+# --- FRONT CONTROLLER ---
+# Route all non-file, non-directory requests to public/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]
+</IfModule>
+
+# Custom 404
+ErrorDocument 404 /jeramy1/public/index.php
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

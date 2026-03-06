@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /community/includes/
+Disallow: /community/models/
+Disallow: /community/cron/
+Disallow: /dompdf/
+Disallow: /PHPMailer/
+Disallow: /callback_url.php
+Disallow: /check_payment.php
+Disallow: /config.php
+Disallow: /.env
+Disallow: /.env.php
+
+Sitemap: https://jeramy1.top/sitemap.xml

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 HouseFinder · vacancy hunting system</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter clean & modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f7f9fc;
+            color: #1a2634;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* header & titles */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #0a2e4b;
+        }
+
+        .logo-area i {
+            color: #2a7f62;
+            margin-right: 6px;
+        }
+
+        .badge {
+            background: #2a7f62;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .admin-toggle-btn {
+            background: white;
+            border: 1.5px solid #2a7f62;
+            color: #2a7f62;
+            padding: 0.7rem 1.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+        }
+
+        .admin-toggle-btn i {
+            font-size: 1rem;
+        }
+
+        .admin-toggle-btn:hover {
+            background: #2a7f62;
+            color: white;
+            border-color: #2a7f62;
+        }
+
+        /* vacancy grid – public area */
+        .section-title {
+            display: flex;
+            align-items: baseline;
+            margin: 1.8rem 0 1.2rem 0;
+        }
+
+        .section-title h2 {
+            font-weight: 600;
+            font-size: 1.7rem;
+            color: #0a2e4b;
+            margin-right: 1rem;
+        }
+
+        .vacancy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .vacancy-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem 1.3rem;
+            box-shadow: 0 8px 22px rgba(0, 20, 30, 0.04);
+            transition: transform 0.1s ease;
+            border: 1px solid #eef2f6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vacancy-card:hover {
+            border-color: #cbdbe4;
+            box-shadow: 0 14px 26px rgba(42,127,98,0.06);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1d4c3b;
+        }
+
+        .price small {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #587b6e;
+        }
+
+        .deposit-badge {
+            background: #f2e9d0;
+            color: #7a5d2e;
+            border-radius: 30px;
+            padding: 0.25rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #416b5a;
+            font-weight: 500;
+            margin: 0.6rem 0;
+            font-size: 0.98rem;
+        }
+
+        .location i {
+            width: 18px;
+            color: #2a7f62;
+        }
+
+        .contact-row {
+            background: #f1f6f9;
+            padding: 0.65rem 1rem;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1f3e4a;
+        }
+
+        .contact-row i {
+            color: #0a2e4b;
+        }
+
+        .vacancy-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 0.9rem;
+            color: #3d5a4c;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-top: 1px dashed #d0dfe5;
+        }
+
+        .neg-badge {
+            background: #e7f0ed;
+            color: #1d5e46;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .count-tag {
+            background: #cad9d1;
+            padding: 0.25rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* ---------- ADMIN PANEL (landlord section) ---------- */
+        .admin-panel {
+            background: white;
+            border-radius: 32px;
+            padding: 2rem 2rem 2.2rem;
+            margin-top: 2.5rem;
+            border: 1px solid #d7e2dd;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.04);
+        }
+
+        .admin-panel h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #1a3d34;
+            margin-bottom: 0.2rem;
+        }
+
+        .admin-panel .subhead {
+            color: #4b6a60;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.4rem 1.8rem;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-field label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #2d4f45;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-field input, .input-field select {
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e3ebee;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            background: #fbfdfe;
+            transition: 0.15s;
+        }
+
+        .input-field input:focus, .input-field select:focus {
+            border-color: #2a7f62;
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(42,127,98,0.06);
+        }
+
+        .negotiable-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .negotiable-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f7f5;
+            padding: 0.45rem 1.2rem;
+            border-radius: 36px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #1e5b48;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #1e5b48;
+            margin-top: 1.8rem;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-primary:hover {
+            background: #12473a;
+            border-color: #12473a;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            background: #eef7f3;
+            border-radius: 40px;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #3f685b;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .footer-note {
+            margin-top: 3rem;
+            text-align: center;
+            color: #64867c;
+            font-size: 0.9rem;
+            border-top: 1px solid #d0e0db;
+            padding-top: 2rem;
+        }
+
+        /* responsive tweaks */
+        @media (max-width: 700px) {
+            body { padding: 1.5rem 1rem; }
+            .main-header { flex-direction: column; align-items: start; gap: 1rem; }
+        }
+
+        /* hidden class */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- ========== HEADER with admin toggle ========= -->
+        <div class="main-header">
+            <div class="logo-area">
+                <h1><i class="fas fa-house-chimney"></i> HouseFinder</h1>
+                <span class="badge"><i class="fas fa-magnifying-glass"></i> vacancy hunt · public</span>
+            </div>
+            <button id="toggleAdminBtn" class="admin-toggle-btn">
+                <i class="fas fa-landmark"></i> Landlord admin panel
+                <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>
+            </button>
+        </div>
+
+        <!-- ========== PUBLIC VACANCY LANDING PAGE ========= -->
+        <div class="section-title">
+            <h2><i class="fas fa-door-open" style="color: #2a7f62; margin-right: 10px;"></i> All vacancies now</h2>
+            <span id="vacancyCounter" class="count-tag" style="background: #bcd9d0;">0 listings</span>
+        </div>
+
+        <!-- VACANCY GRID - dynamically filled -->
+        <div id="vacancyGrid" class="vacancy-grid">
+            <!-- vacancies injected via JS -->
+        </div>
+
+        <!-- ========== ADMIN SYSTEM (hidden by default, visible after toggle) ========= -->
+        <div id="adminPanel" class="admin-panel hidden">
+            <h3><i class="fas fa-file-signature"></i> Landlord announce vacancy</h3>
+            <div class="subhead">
+                <i class="fas fa-home"></i> Register new rooms / apartments – fill all details
+            </div>
+
+            <form id="vacancyForm">
+                <div class="form-grid">
+                    <!-- house location -->
+                    <div class="input-field">
+                        <label><i class="fas fa-location-dot"></i> Location *</label>
+                        <input type="text" id="location" placeholder="e.g. Downtown, Maple St 45" required>
+                    </div>
+                    <!-- contact details -->
+                    <div class="input-field">
+                        <label><i class="fas fa-phone"></i> Contact *</label>
+                        <input type="text" id="contact" placeholder="phone / email" required>
+                    </div>
+                    <!-- how many vacancies -->
+                    <div class="input-field">
+                        <label><i class="fas fa-hashtag"></i> Vacancies (units) *</label>
+                        <input type="number" id="vacanciesCount" min="1" value="1" required>
+                    </div>
+                    <!-- price -->
+                    <div class="input-field">
+                        <label><i class="fas fa-tag"></i> Monthly rent ($) *</label>
+                        <input type="number" id="price" min="0" step="0.01" placeholder="1200" required>
+                    </div>
+                    <!-- deposit -->
+                    <div class="input-field">
+                        <label><i class="fas fa-safe"></i> Deposit ($) *</label>
+                        <input type="number" id="deposit" min="0" step="0.01" placeholder="600" required>
+                    </div>
+                    <!-- negotiable? -->
+                    <div class="input-field">
+                        <label><i class="fas fa-handshake"></i> Negotiable *</label>
+                        <div class="negotiable-row">
+                            <label class="negotiable-option">
+                                <input type="radio" name="negotiable" value="Yes" checked> Yes
+                            </label>
+                            <label class="negotiable-option">
+                                <input type="radio" name="negotiable" value="No"> No
+                            </label>
+                            <label class="negotiable-option">
+                                <input type="radio" name="negotiable" value="Flexible"> Flexible
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- submit button -->
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-plus-circle"></i> Announce vacancy — public instantly
+                </button>
+            </form>
+            <p style="margin-top: 1.2rem; font-size: 0.8rem; color: #4d7468;"><i class="fas fa-info-circle"></i> New vacancies appear immediately on the public landing page.</p>
+        </div>
+
+        <div class="footer-note">
+            <i class="fas fa-globe"></i> House hunting system · free for everyone · landlords post vacancies
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            // -------------------------------------------------------------
+            // VACANCY STORAGE : initialize from localStorage or default data
+            // -------------------------------------------------------------
+            let vacancies = [];
+
+            // Load from localStorage or inject 3 sample vacancies (so the page isn't empty)
+            function loadVacanciesFromStorage() {
+                const stored = localStorage.getItem('housefinder_vacancies');
+                if (stored) {
+                    try {
+                        vacancies = JSON.parse(stored);
+                    } catch(e) {
+                        vacancies = getDefaultVacancies();
+                    }
+                } else {
+                    vacancies = getDefaultVacancies();
+                }
+            }
+
+            // Default vacancies to show a lively public landing page
+            function getDefaultVacancies() {
+                return [
+                    {
+                        id: '1',
+                        location: 'Sunnyvale, 221B Baker St',
+                        contact: 'landlord@example.com · 555-0199',
+                        vacanciesCount: 2,
+                        price: 1450,
+                        deposit: 900,
+                        negotiable: 'Yes'
+                    },
+                    {
+                        id: '2',
+                        location: 'Greenfield, 10 Park Avenue',
+                        contact: 'hills.realty@mail.com · 555-8723',
+                        vacanciesCount: 1,
+                        price: 2100,
+                        deposit: 1500,
+                        negotiable: 'Flexible'
+                    },
+                    {
+                        id: '3',
+                        location: 'Rivertown, 8 Harbor View',
+                        contact: 'shore.rentals +1 555 3421',
+                        vacanciesCount: 3,
+                        price: 975,
+                        deposit: 500,
+                        negotiable: 'No'
+                    }
+                ];
+            }
+
+            // Save to localStorage
+            function saveVacancies() {
+                localStorage.setItem('housefinder_vacancies', JSON.stringify(vacancies));
+            }
+
+            // -------------------------------------------------------------
+            // Render all vacancies to public grid
+            // -------------------------------------------------------------
+            function renderVacancies() {
+                const grid = document.getElementById('vacancyGrid');
+                const counter = document.getElementById('vacancyCounter');
+                
+                if (!grid) return;
+
+                if (vacancies.length === 0) {
+                    grid.innerHTML = `<div class="empty-state">
+                                        <i class="fas fa-calendar-circle-plus" style="font-size: 2.2rem; margin-bottom: 0.8rem; display: block;"></i>
+                                        🏡 No vacancies at the moment. Check back soon or announce one via admin.
+                                    </div>`;
+                    counter.textContent = '0 listings';
+                    return;
+                }
+
+                // Build HTML cards
+                let html = '';
+                vacancies.forEach(v => {
+                    // format price & deposit with commas
+                    const priceFormatted = Number(v.price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0});
+                    const depositFormatted = Number(v.deposit).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0});
+
+                    // negotiable badge color
+                    let negotiableClass = '';
+                    let negotiableText = v.negotiable || 'No';
+                    
+                    const locationEscaped = escapeHtml(v.location || 'Unknown');
+                    const contactEscaped = escapeHtml(v.contact || 'not provided');
+
+                    html += `<div class="vacancy-card">
+                                <div class="card-header">
+                                    <span class="price">${priceFormatted}<small>/mo</small></span>
+                                    <span class="deposit-badge"><i class="fas fa-shield"></i> deposit ${depositFormatted}</span>
+                                </div>
+                                <div class="location">
+                                    <i class="fas fa-map-pin"></i> ${locationEscaped}
+                                </div>
+                                <div class="contact-row">
+                                    <i class="fas fa-address-card"></i> ${contactEscaped}
+                                </div>
+                                <div class="vacancy-footer">
+                                    <span><i class="fas fa-door-open"></i> ${v.vacanciesCount} vacant</span>
+                                    <span class="neg-badge"><i class="fas fa-hand-holding-dollar"></i> ${v.negotiable || 'No'}</span>
+                                </div>
+                            </div>`;
+                });
+                grid.innerHTML = html;
+                counter.textContent = `${vacancies.length} listing${vacancies.length !== 1 ? 's' : ''}`;
+            }
+
+            // simple escape for XSS
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            // -------------------------------------------------------------
+            // Admin: add new vacancy (landlord announce)
+            // -------------------------------------------------------------
+            function addVacancyFromForm(e) {
+                e.preventDefault();
+
+                // get values
+                const locationInput = document.getElementById('location');
+                const contactInput = document.getElementById('contact');
+                const vacanciesCountInput = document.getElementById('vacanciesCount');
+                const priceInput = document.getElementById('price');
+                const depositInput = document.getElementById('deposit');
+                const negotiableRadios = document.getElementsByName('negotiable');
+
+                let negotiableValue = 'Yes';
+                for (let radio of negotiableRadios) {
+                    if (radio.checked) {
+                        negotiableValue = radio.value;
+                        break;
+                    }
+                }
+
+                // basic validation
+                if (!locationInput.value.trim() || !contactInput.value.trim() || !priceInput.value || !depositInput.value) {
+                    alert('❌ Please fill all required fields: location, contact, price, deposit.');
+                    return;
+                }
+
+                const newVacancy = {
+                    id: Date.now() + '' + Math.floor(Math.random() * 1000),
+                    location: locationInput.value.trim(),
+                    contact: contactInput.value.trim(),
+                    vacanciesCount: parseInt(vacanciesCountInput.value, 10) || 1,
+                    price: parseFloat(priceInput.value) || 0,
+                    deposit: parseFloat(depositInput.value) || 0,
+                    negotiable: negotiableValue
+                };
+
+                if (newVacancy.vacanciesCount < 1) newVacancy.vacanciesCount = 1;
+                if (newVacancy.price < 0) newVacancy.price = 0;
+                if (newVacancy.deposit < 0) newVacancy.deposit = 0;
+
+                vacancies.push(newVacancy);
+                saveVacancies();
+                renderVacancies();
+
+                // Reset form fields (keep default negotiable = Yes)
+                locationInput.value = '';
+                contactInput.value = '';
+                vacanciesCountInput.value = 1;
+                priceInput.value = '';
+                depositInput.value = '';
+                // set negotiable default 'Yes'
+                document.querySelector('input[name="negotiable"][value="Yes"]').checked = true;
+
+                // optional: small feedback
+                // (admin panel may stay open)
+                // If you want, flash message but keep simple.
+            }
+
+            // -------------------------------------------------------------
+            // Toggle admin panel visibility
+            // -------------------------------------------------------------
+            function initToggle() {
+                const toggleBtn = document.getElementById('toggleAdminBtn');
+                const adminPanel = document.getElementById('adminPanel');
+
+                toggleBtn.addEventListener('click', function() {
+                    adminPanel.classList.toggle('hidden');
+                    // change button text accordingly
+                    if (adminPanel.classList.contains('hidden')) {
+                        toggleBtn.innerHTML = '<i class="fas fa-landmark"></i> Landlord admin panel <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>';
+                    } else {
+                        toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Hide admin panel <i class="fas fa-arrow-up"></i>';
+                    }
+                });
+            }
+
+            // -------------------------------------------------------------
+            // Initialize everything
+            // -------------------------------------------------------------
+            function init() {
+                loadVacanciesFromStorage();
+                renderVacancies();
+
+                const form = document.getElementById('vacancyForm');
+                if (form) {
+                    form.addEventListener('submit', addVacancyFromForm);
+                }
+
+                initToggle();
+
+                // If admin panel is open by default? we keep it hidden -> hidden class present.
+                // ensure default hidden (we set hidden in html, but if we want to show? keep hidden)
+                const adminPanel = document.getElementById('adminPanel');
+                // but we want it initially hidden? yes the HTML has class "hidden"
+                // ensure toggle button text matches hidden state
+                const toggleBtn = document.getElementById('toggleAdminBtn');
+                if (!adminPanel.classList.contains('hidden')) {
+                    // if accidentally visible, we adjust text
+                    toggleBtn.innerHTML = '<i class="fas fa-eye"></i> Hide admin panel <i class="fas fa-arrow-up"></i>';
+                } else {
+                    toggleBtn.innerHTML = '<i class="fas fa-landmark"></i> Landlord admin panel <i class="fas fa-arrow-right" style="font-size: 0.8rem;"></i>';
+                }
+            }
+
+            init();
+        })();
+    </script>
+
+    <!-- 
+        HOUSE HUNTING SYSTEM – fully functional 
+        ✅ landlords (admin) enter vacancies: location, how many, contact, price, deposit, negotiable
+        ✅ landing page displays all vacancies – public to anyone
+        ✅ localStorage persistence – vacancies remain after refresh
+        ✅ clean, modern, responsive design 
+    -->
+</body>
+</html>

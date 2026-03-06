@@ -1,0 +1,3 @@
+2026-01-31 00:06:04
+{"Result":{"ResultType":0,"ResultCode":2001,"ResultDesc":"The initiator information is invalid.","OriginatorConversationID":"2e05-4f5f-8219-3dbd446de6fd7780","ConversationID":"AG_20260131_0100100304fogaeey9hl","TransactionID":"UAV030BRJ2","ReferenceData":{"ReferenceItem":{"Key":"QueueTimeoutURL","Value":"https:\/\/internalsandbox.safaricom.co.ke\/mpesa\/b2cresults\/v1\/submit"}}}}
+

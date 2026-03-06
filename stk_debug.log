@@ -1,0 +1,288 @@
+2025-11-16 18:36:59 | === STK PUSH START ===
+2025-11-16 18:37:04 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "WtErbifamq1jswnsZw6EHwgEiiGF",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 18:37:05 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"2445-4eca-bcb7-782b847fafa24783",
+            "CheckoutRequestID":"ws_CO_16112025183706196790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 18:37:05 | === STK PUSH END ===
+2025-11-16 18:44:51 | === STK PUSH START ===
+2025-11-16 18:44:52 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "rbf6jmTKb583nkPEV9kjwQbOc0Sh",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 18:44:52 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"61fa-4a78-a234-c6beaef9e85b12368",
+            "CheckoutRequestID":"ws_CO_16112025184453582790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 18:44:52 | === STK PUSH END ===
+2025-11-16 18:46:01 | === STK PUSH START ===
+2025-11-16 18:46:06 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "AWGs3L6PX7cUFWZJY3wFGqXzZ3Lr",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 18:46:07 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"61fa-4a78-a234-c6beaef9e85b12391",
+            "CheckoutRequestID":"ws_CO_16112025184607932790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 18:46:07 | === STK PUSH END ===
+2025-11-16 19:14:57 | === STK PUSH START ===
+2025-11-16 19:14:59 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "EuiTbELLmfwr7i8npf5B4hA1v9o5",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 19:15:00 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"a1d9-440f-8a5e-08cdea85f62017709",
+            "CheckoutRequestID":"ws_CO_16112025191501025790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 19:15:00 | === STK PUSH END ===
+2025-11-16 19:16:28 | === STK PUSH START ===
+2025-11-16 19:16:40 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:38:21 | === STK PUSH START ===
+2025-11-16 19:38:33 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:41:08 | === STK PUSH START ===
+2025-11-16 19:41:19 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:44:53 | === STK PUSH START ===
+2025-11-16 19:44:54 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "qWbmgQoA7G0wm3KXJrCqiX1Ev1I6",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 19:44:55 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"2445-4eca-bcb7-782b847fafa25503",
+            "CheckoutRequestID":"ws_CO_16112025194456603790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 19:44:55 | === STK PUSH END ===
+2025-11-16 19:49:56 | === STK PUSH START ===
+2025-11-16 19:50:07 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:50:51 | === STK PUSH START ===
+2025-11-16 19:51:03 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:56:37 | === STK PUSH START ===
+2025-11-16 19:56:48 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 19:59:17 | === STK PUSH START ===
+2025-11-16 19:59:18 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "BtoDZIenQxGBqyiE4GFuTPTg7fcg",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 19:59:19 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"2445-4eca-bcb7-782b847fafa25610",
+            "CheckoutRequestID":"ws_CO_16112025195920341790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 19:59:19 | === STK PUSH END ===
+2025-11-16 22:59:22 | === STK PUSH START ===
+2025-11-16 22:59:33 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 22:59:33 | ERROR: Token failed - HTTP 0
+2025-11-16 23:00:05 | === STK PUSH START ===
+2025-11-16 23:00:07 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "juDbdxYs8TL89RNFMUYGWzAI2xaK",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 23:00:08 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"bad6-4de8-9219-948880cab8591834",
+            "CheckoutRequestID":"ws_CO_16112025230009183790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 23:00:08 | === STK PUSH END ===
+2025-11-16 23:01:13 | === STK PUSH START ===
+2025-11-16 23:01:14 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "G4x12QeFnDJ97CPLu3AtxUKiBS1R",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 23:01:34 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"61fa-4a78-a234-c6beaef9e85b15124",
+            "CheckoutRequestID":"ws_CO_16112025230117214790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 23:01:34 | === STK PUSH END ===
+2025-11-16 23:14:23 | === STK PUSH START ===
+2025-11-16 23:14:34 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 23:14:34 | ERROR: Token failed - HTTP 0
+2025-11-16 23:14:50 | === STK PUSH START ===
+2025-11-16 23:15:02 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-11-16 23:15:02 | ERROR: Token failed - HTTP 0
+2025-11-16 23:15:37 | === STK PUSH START ===
+2025-11-16 23:15:38 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "cqBiR5gt5TeIkoUWK9iMWv2e4aaV",
+            "expires_in": "3599"
+        }
+        
+2025-11-16 23:15:39 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"2445-4eca-bcb7-782b847fafa27607",
+            "CheckoutRequestID":"ws_CO_16112025231540460790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-16 23:15:39 | === STK PUSH END ===
+2025-11-19 09:42:41 | === STK PUSH START ===
+2025-11-19 09:42:42 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "7SQCnGkVMMiT3FGL9BcpYRIWwtjq",
+            "expires_in": "3599"
+        }
+        
+2025-11-19 09:42:43 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"5905-4842-9145-88539440709313710",
+            "CheckoutRequestID":"ws_CO_19112025094243974790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-19 09:42:43 | === STK PUSH END ===
+2025-11-19 09:44:44 | === STK PUSH START ===
+2025-11-19 09:44:45 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "rhnBJmpRcEK9D9KtEBxGo6TeyO0d",
+            "expires_in": "3599"
+        }
+        
+2025-11-19 09:44:46 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"5905-4842-9145-88539440709313740",
+            "CheckoutRequestID":"ws_CO_19112025094447128797492910",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-19 09:44:46 | === STK PUSH END ===
+2025-11-19 10:09:20 | === STK PUSH START ===
+2025-11-19 10:09:22 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "4d5wVYQ54jvND9k0CsDQE5tHEonC",
+            "expires_in": "3599"
+        }
+        
+2025-11-19 10:09:23 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"5905-4842-9145-88539440709314038",
+            "CheckoutRequestID":"ws_CO_19112025100924787790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-19 10:09:23 | === STK PUSH END ===
+2025-11-19 12:03:22 | === STK PUSH START ===
+2025-11-19 12:03:23 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "MxwapU22ADxaSMaGyst05kyAAom6",
+            "expires_in": "3599"
+        }
+        
+2025-11-19 12:03:24 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"c742-474c-b56f-0858c0495d819750",
+            "CheckoutRequestID":"ws_CO_19112025120325859790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-19 12:03:24 | === STK PUSH END ===
+2025-11-20 10:11:55 | === STK PUSH START ===
+2025-11-20 10:11:56 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "TDGNMEmsn5bztEDGIZPA3REKifmg",
+            "expires_in": "3599"
+        }
+        
+2025-11-20 10:11:57 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"6efb-49b4-a783-bbbc34f683ee10972",
+            "CheckoutRequestID":"ws_CO_20112025101159266726773296",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-20 10:11:57 | === STK PUSH END ===
+2025-11-20 12:27:20 | === STK PUSH START ===
+2025-11-20 12:27:22 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "Iv49C0yDA0MGF8EAFEkCEWeSRcVy",
+            "expires_in": "3599"
+        }
+        
+2025-11-20 12:27:23 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"63d5-42c3-9c05-cc7c2235c8c28193",
+            "CheckoutRequestID":"ws_CO_20112025122724591796183933",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-11-20 12:27:23 | === STK PUSH END ===
+2025-12-06 18:02:30 | === STK PUSH START ===
+2025-12-06 18:02:42 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-12-06 18:02:42 | ERROR: Token failed - HTTP 0
+2025-12-06 18:03:13 | === STK PUSH START ===
+2025-12-06 18:03:25 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-12-06 18:03:25 | ERROR: Token failed - HTTP 0
+2025-12-06 18:04:40 | === STK PUSH START ===
+2025-12-06 18:04:51 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2025-12-06 18:04:51 | ERROR: Token failed - HTTP 0
+2025-12-06 18:21:26 | === STK PUSH START ===
+2025-12-06 18:21:29 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "urQiTIbafM6zEiMASk9uUoUdv6ed",
+            "expires_in": "3599"
+        }
+        
+2025-12-06 18:21:30 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"1c7a-4384-a656-b48667853e3a40655",
+            "CheckoutRequestID":"ws_CO_06122025182131248790370094",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2025-12-06 18:21:30 | === STK PUSH END ===
+2026-02-20 00:11:57 | === STK PUSH START ===
+2026-02-20 00:11:58 | Token HTTP: 200 | Err:  | Resp: {
+            "access_token": "bqCAeFpYF3My76CWvkl4hTo05azU",
+            "expires_in": "3599"
+        }
+        
+2026-02-20 00:11:59 | STK HTTP: 200 | Err:  | Resp: {
+            "MerchantRequestID":"d72f-4623-8fc3-5609028fe79834811",
+            "CheckoutRequestID":"ws_CO_20022026001154691790370092",
+            "ResponseCode": "0",
+            "ResponseDescription":"Success. Request accepted for processing",
+            "CustomerMessage":"Success. Request accepted for processing"
+        }
+        
+2026-02-20 00:11:59 | === STK PUSH END ===
+2026-02-20 00:29:31 | === STK PUSH START ===
+2026-02-20 00:29:42 | Token HTTP: 0 | Err: Could not resolve host: sandbox.safaricom.co.ke | Resp: 
+2026-02-20 00:29:42 | ERROR: Token failed - HTTP 0

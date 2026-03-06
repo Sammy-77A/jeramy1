@@ -1,0 +1,2493 @@
+Getting Started
+
+Lipana makes it easy to accept M-Pesa payments. Follow these steps to get started.
+
+API BASE URL
+https://api.lipana.dev/v1
+Copy
+1
+Create an Account
+
+Sign up for a Lipana account and complete the onboarding process to get access to your dashboard.
+
+2
+Generate API Keys
+
+Navigate to the API Keys section in your dashboard and create a new API key pair. You'll receive both a publishable key (safe to share) and a secret key (keep private).
+
+1
+2
+3
+4
+5
+# Publishable Key (safe to share):
+lip_pk_live_1234567890abcdefghijklmnopqrstuvwxyz
+
+# Secret Key (keep private, only shown once):
+lip_sk_live_1234567890abcdefghijklmnopqrstuvwxyz
+3
+Make Your First Request
+
+Use your API key to make your first payment link request.
+
+terminal
+1
+2
+3
+4
+5
+6
+7
+8
+curl -X POST https://api.lipana.dev/v1/payment-links \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY" \
+  -H "Content-Type: application/json" \
+  -d ___STRING_START___'{
+    "title": "Premium Subscription",
+    "amount": 5000,
+    "currency": "KES"
+  }'___STRING_END___
+Authentication
+
+Lipana uses a dual key system: publishable keys for client-side use and secret keys for server-side operations. All API requests require authentication using one of your API keys.
+
+Dual Key System
+Publishable Key
+
+Safe to expose in client-side code, mobile apps, or public repositories. Use for frontend integrations.
+
+lip_pk_live_...
+Secret Key
+
+Keep private and secure. Only use in server-side code. Never expose in client-side code or public repositories.
+
+lip_sk_live_...
+Authentication Methods
+
+You can provide your API key using any of these methods:
+
+Method 1: x-api-key Header
+terminal
+1
+2
+curl -X GET https://api.lipana.dev/v1/transactions \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY"
+Method 2: Authorization Header (ApiKey)
+terminal
+1
+2
+curl -X GET https://api.lipana.dev/v1/transactions \
+  -H "Authorization: ApiKey lip_sk_live_YOUR_SECRET_KEY"
+Method 3: Authorization Header (Bearer)
+terminal
+1
+2
+curl -X GET https://api.lipana.dev/v1/transactions \
+  -H "Authorization: Bearer lip_sk_live_YOUR_SECRET_KEY"
+Key Formats
+Sandbox Keys
+key-formats
+1
+2
+3
+4
+5
+# Publishable
+lip_pk_test_...
+
+# Secret
+lip_sk_test_...
+Production Keys
+key-formats
+1
+2
+3
+4
+5
+# Publishable
+lip_pk_live_...
+
+# Secret
+lip_sk_live_...
+When to Use Which Key
+Use Publishable Key For:
+Client-side JavaScript applications
+Mobile apps (iOS, Android)
+Public repositories
+Frontend integrations
+Public documentation
+Use Secret Key For:
+Server-side API calls
+Backend services
+Private repositories only
+Environment variables
+Secure server configurations
+API Key Expiration & Session Timeout
+
+API keys do not expire. Once created, your API keys remain valid until you manually revoke or delete them. This makes them ideal for long-running integrations, background services, and automated systems.
+
+Session timeout does not affect API usage. The 15-minute session timeout only applies to web dashboard users who authenticate with JWT tokens (cookies). API key authentication is completely separate and is not subject to any timeout restrictions.
+
+Note: If you're using the web dashboard, your session will expire after 15 minutes of inactivity or 15 minutes from login. You'll need to log in again. However, any API calls made with your API keys will continue to work regardless of your dashboard session status.
+
+Sandbox
+
+Use for testing. No real money is processed.
+
+Production
+
+Use for live transactions. Real money is processed.
+
+Lipana SDK
+
+Official SDKs to integrate Lipana into your application with ease. Type-safe, well-documented, and production-ready.
+
+Installation
+Node.js / JavaScript
+terminal
+1
+2
+3
+4
+5
+6
+7
+8
+# Using npm
+npm install @lipana/sdk
+
+# Using yarn
+yarn add @lipana/sdk
+
+# Using pnpm
+pnpm add @lipana/sdk
+Python
+terminal
+1
+2
+3
+4
+5
+# Using pip
+pip install lipana
+
+# Using poetry
+poetry add lipana
+PHP
+terminal
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+# PHP SDK - Coming Soon
+# For now, use direct API calls with cURL
+
+$ch = curl_init('https://api.lipana.dev/v1/transactions/push-stk');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    'phone' => '+254712345678',
+    'amount' => 1000
+]));
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'x-api-key: your-api-key',
+    'Content-Type: application/json'
+]);
+$response = curl_exec($ch);
+Quick Start - Node.js
+quickstart.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+import { Lipana } from '@lipana/sdk';
+
+// Initialize the SDK
+const lipana = new Lipana({
+  apiKey: process.env.LIPANA_SECRET_KEY, // Use secret key for server-side
+  environment: 'production' // or 'sandbox' for testing
+});
+
+// Create a payment link
+async function createPayment() {
+  try {
+    const paymentLink = await lipana.paymentLinks.create({
+      title: 'Premium Subscription',
+      description: 'Monthly subscription to our premium features',
+      amount: 5000,
+      currency: 'KES',
+      allowCustomAmount: false,
+      successRedirectUrl: 'https://yourwebsite.com/success'
+    });
+    
+    console.log('Payment link created:', paymentLink.url);
+    return paymentLink;
+  } catch (error) {
+    console.error('Error creating payment:', error.message);
+    throw error;
+  }
+}
+
+createPayment();
+Quick Start - Python
+quickstart.py
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+import os
+from lipana import Lipana
+
+# Initialize the SDK
+lipana = Lipana(
+    api_key=os.getenv('LIPANA_SECRET_KEY'),  # Use secret key for server-side
+    environment='production'  # or 'sandbox' for testing
+)
+
+# Create a payment link
+def create_payment():
+    try:
+        payment_link = lipana.payment_links.create(
+            title='Premium Subscription',
+            description='Monthly subscription to our premium features',
+            amount=5000,
+            currency='KES',
+            allow_custom_amount=False,
+            success_redirect_url='https://yourwebsite.com/success'
+        )
+        
+        print(f'Payment link created: {payment_link["url"]}')
+        return payment_link
+    except Exception as error:
+        print(f'Error creating payment: {str(error)}')
+        raise
+
+create_payment()
+🔒
+Type Safety
+
+Full TypeScript support with autocomplete and type checking
+
+⚠️
+Error Handling
+
+Comprehensive error handling with detailed error messages
+
+⚡
+Async/Await
+
+Modern async/await syntax for cleaner, readable code
+
+🔐
+Webhooks
+
+Built-in webhook signature verification utilities
+
+Advanced SDK Usage
+advanced-usage.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+import { Lipana } from '@lipana/sdk';
+
+const lipana = new Lipana({
+  apiKey: process.env.LIPANA_SECRET_KEY, // Use secret key for server-side
+  environment: 'production'
+});
+
+// List all transactions with filtering
+const transactions = await lipana.transactions.list({
+  status: 'success',
+  limit: 50,
+  startDate: '2024-01-01',
+  endDate: '2024-12-31'
+});
+
+// Get a specific transaction
+const transaction = await lipana.transactions.retrieve('txn_123456');
+
+// List payment links
+const paymentLinks = await lipana.paymentLinks.list({
+  status: 'active',
+  limit: 10
+});
+
+// Update a payment link
+const updatedLink = await lipana.paymentLinks.update('link_123456', {
+  status: 'inactive'
+});
+
+// Delete a payment link
+await lipana.paymentLinks.delete('link_123456');
+
+// Verify webhook signature
+const isValid = lipana.webhooks.verify(
+  request.body,
+  request.headers['x-lipana-signature'],
+  process.env.LIPANA_WEBHOOK_SECRET
+);
+
+if (isValid) {
+  console.log('Webhook verified successfully');
+}
+
+// Initiate STK push payment
+const stkResponse = await lipana.transactions.initiateStkPush({
+  phone: '+254712345678',
+  amount: 5000
+});
+
+console.log('STK push initiated:', stkResponse.transactionId);
+console.log('Checkout Request ID:', stkResponse.checkoutRequestID);
+Payment Links
+
+Create shareable payment links that customers can use to make payments.
+
+Create Payment Link
+request.sh
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+POST /payment-links
+Content-Type: application/json
+x-api-key: lip_sk_live_YOUR_SECRET_KEY
+
+{
+  "title": "Premium Subscription",
+  "description": "Monthly premium subscription",
+  "amount": 5000,
+  "currency": "KES",
+  "allowCustomAmount": false,
+  "successRedirectUrl": "https://yourwebsite.com/success"
+}
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+{
+  "id": "link_123456",
+  "slug": "premium-subscription",
+  "title": "Premium Subscription",
+  "description": "Monthly premium subscription",
+  "amount": 5000,
+  "currency": "KES",
+  "status": "active",
+  "url": "https://lipana.dev/pay/premium-subscription",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+STK Push
+
+Initiate M-Pesa STK (Sim Tool Kit) push payments directly via API. Send payment requests to customers' phones and receive payments instantly.
+
+⚠️
+Minimum Transaction Amount
+
+All transactions must have a minimum amount of Ksh 10. Transactions below this amount will be rejected to prevent payout failures.
+
+How STK Push Works
+
+STK Push allows you to send payment requests directly to a customer's phone. When you initiate an STK push:
+
+You send a request with the customer's phone number and amount
+An M-Pesa prompt appears on the customer's phone
+The customer enters their M-Pesa PIN to complete the payment
+You receive a webhook notification when the payment is completed
+Initiate STK Push
+request.sh
+1
+2
+3
+4
+5
+6
+7
+8
+POST /api/transactions/push-stk
+Content-Type: application/json
+x-api-key: lip_sk_live_YOUR_SECRET_KEY
+
+{
+  "phone": "+254712345678",
+  "amount": 5000
+}
+Request Parameters
+phone(required)
+
+Customer's phone number in format +254712345678 or 254712345678
+
+amount(required)
+
+Payment amount in KES (Kenyan Shillings). Must be a positive number. Minimum amount is Ksh 10.
+
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+{
+  "success": true,
+  "message": "STK push initiated successfully",
+  "data": {
+    "transactionId": "TXN1234567890",
+    "status": "pending",
+    "checkoutRequestID": "ws_CO_1912202310204401234567890",
+    "message": "STK push sent to your phone. Please complete the payment on your phone."
+  }
+}
+STK Push via Payment Links
+
+You can also initiate STK push payments through payment links. This is useful for public payment pages where customers can enter their phone number and amount.
+
+request.sh
+1
+2
+3
+4
+5
+6
+7
+8
+POST /api/payment-links/public/:slug/pay
+Content-Type: application/json
+x-api-key: lip_sk_live_YOUR_SECRET_KEY
+
+{
+  "phone": "+254712345678",
+  "amount": 5000
+}
+Environment Control
+
+STK push requests respect your API key's environment setting:
+
+Sandbox Keys
+
+Use lip_sk_test_* keys to send test STK pushes. No real money is processed.
+
+Production Keys
+
+Use lip_sk_live_* keys to send real STK pushes. Real money is processed.
+
+Transaction Status
+
+After initiating an STK push, the transaction status will be:
+
+Pending
+STK push sent, waiting for customer to complete payment
+Success
+Payment completed successfully
+Failed
+Payment failed or was cancelled by customer
+Webhook Notifications
+
+You'll receive webhook notifications when the STK push payment status changes. Make sure to set up your webhook endpoint to handle these events.
+
+webhook-payload.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+POST https://your-website.com/webhook
+Content-Type: application/json
+X-Lipana-Signature: signature_hash
+
+{
+  "event": "payment.success",
+  "data": {
+    "transactionId": "TXN1234567890",
+    "amount": 5000,
+    "currency": "KES",
+    "status": "success",
+    "phone": "+254712345678",
+    "checkoutRequestID": "ws_CO_1912202310204401234567890",
+    "timestamp": "2024-01-15T10:30:00Z"
+  }
+}
+Transactions
+
+Track and manage all payment transactions through the API.
+
+List Transactions
+terminal
+1
+2
+GET /transactions
+x-api-key: lip_sk_live_YOUR_SECRET_KEY
+Response Example
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+[
+  {
+    "id": "txn_123456",
+    "amount": 5000,
+    "currency": "KES",
+    "status": "success",
+    "phone": "+254712345678",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "paymentLink": {
+      "id": "link_123456",
+      "title": "Premium Subscription"
+    }
+  }
+]
+Transaction Statuses
+Success
+Payment completed successfully
+Pending
+Payment is being processed
+Failed
+Payment failed or was cancelled
+Payouts & Top-ups
+
+Manage your funds by requesting payouts to your M-Pesa number, sending money to other recipients, or topping up your Lipana account balance.
+
+Request Manual Payout
+
+Withdraw funds from your Lipana balance to your registered M-Pesa number.
+
+cURL
+request.sh
+1
+2
+3
+4
+5
+6
+7
+POST /api/v1/payouts/request
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "amount": 5000
+}
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+{
+  "success": true,
+  "message": "Payout request received",
+  "payout": {
+    "id": "payout_123456",
+    "amount": 5000,
+    "status": "pending",
+    "recipientPhone": "+254712345678",
+    "createdAt": "2024-01-15T10:30:00Z"
+  }
+}
+SDK
+request-payout.js
+1
+2
+3
+4
+5
+6
+// Request a manual payout
+const payout = await lipana.payouts.request({
+  amount: 5000 // Amount in KES
+});
+
+console.log('Payout requested:', payout.id);
+Send to Phone Number
+
+Send funds directly to any M-Pesa phone number.
+
+cURL
+request.sh
+1
+2
+3
+4
+5
+6
+7
+8
+POST /api/v1/payouts/phone
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "phone": "254712345678",
+  "amount": 5000
+}
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+{
+  "success": true,
+  "message": "Payout initiated successfully",
+  "payout": {
+    "id": "payout_123456",
+    "status": "processing",
+    "amount": 5000,
+    "recipientPhone": "254712345678",
+    "conversationId": "AG_20240115_..."
+  }
+}
+SDK
+send-to-phone.js
+1
+2
+3
+4
+5
+6
+7
+// Send funds to a phone number
+const payout = await lipana.payouts.sendToPhone(
+  '254712345678', // Phone number
+  5000 // Amount in KES
+);
+
+console.log('Payout initiated:', payout.id);
+Send to Recipient
+
+Send funds to a specific recipient (saved in your dashboard) using their Recipient ID.
+
+cURL
+request.sh
+1
+2
+3
+4
+5
+6
+7
+POST /api/v1/payouts/recipient/rec_123456
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "amount": 5000
+}
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+{
+  "success": true,
+  "message": "Payout initiated successfully",
+  "payout": {
+    "id": "payout_123456",
+    "status": "processing",
+    "amount": 5000,
+    "recipientId": "rec_123456"
+  }
+}
+SDK
+send-to-recipient.js
+1
+2
+3
+4
+5
+6
+7
+// Send funds to a recipient
+const transfer = await lipana.payouts.sendToRecipient(
+  'rec_123456', // Recipient ID
+  5000 // Amount in KES
+);
+
+console.log('Transfer initiated:', transfer.id);
+Send to All Recipients
+
+Bulk payout to all active recipients in your account.
+
+cURL
+request.sh
+1
+2
+3
+4
+5
+6
+7
+POST /api/v1/payouts/recipients/bulk
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "amount": 5000
+}
+Response
+response.json
+1
+2
+3
+4
+5
+{
+  "success": true,
+  "message": "Bulk payout initiated for 5 recipients",
+  "totalAmount": 25000
+}
+SDK
+bulk-transfer.js
+1
+2
+3
+4
+5
+6
+// Send funds to all recipients
+const bulkTransfer = await lipana.payouts.sendToAllRecipients(
+  5000 // Amount per recipient in KES
+);
+
+console.log('Bulk transfer initiated:', bulkTransfer.message);
+Top-up Account
+
+Initiate an STK push to top up your Lipana account balance from your M-Pesa number.
+
+cURL
+request.sh
+1
+2
+3
+4
+5
+6
+7
+8
+POST /api/v1/payouts/topup
+Content-Type: application/json
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+{
+  "phone": "254712345678",
+  "amount": 1000
+}
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+{
+  "success": true,
+  "message": "STK push initiated successfully",
+  "data": {
+    "transactionId": "txn_123456",
+    "checkoutRequestID": "ws_CO_..."
+  }
+}
+SDK
+top-up.js
+1
+2
+3
+4
+5
+6
+7
+// Top up your account
+const topUp = await lipana.payouts.topUp({
+  amount: 1000, // Amount to top up
+  phone: '254712345678' // Your M-Pesa number
+});
+
+console.log('Top-up initiated:', topUp.checkoutRequestID);
+List Payouts
+
+Retrieve a list of all your payouts.
+
+cURL
+request.sh
+1
+2
+GET /api/v1/payouts?limit=10&page=1
+Authorization: Bearer YOUR_ACCESS_TOKEN
+Response
+response.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+{
+  "success": true,
+  "data": [
+    {
+      "id": "payout_123456",
+      "amount": 5000,
+      "status": "success",
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 50,
+    "pages": 5
+  }
+}
+SDK
+list-payouts.js
+1
+2
+3
+4
+5
+6
+// List 10 most recent payouts
+const payouts = await lipana.payouts.list({
+  limit: 10
+});
+
+console.log('Found payouts:', payouts.length);
+Webhooks
+
+Receive real-time notifications about payment events via webhooks.
+
+payment.success
+
+Payment completed successfully
+
+payment.failed
+
+Payment failed
+
+payment.pending
+
+Payment initiated
+
+Webhook Payload
+webhook-payload.json
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+POST https://your-website.com/webhook
+Content-Type: application/json
+X-Lipana-Signature: signature_hash
+
+{
+  "event": "payment.success",
+  "data": {
+    "transactionId": "txn_123456",
+    "amount": 5000,
+    "currency": "KES",
+    "status": "success",
+    "phone": "+254712345678",
+    "timestamp": "2024-01-15T10:30:00Z"
+  }
+}
+Webhook Signature Verification
+
+All webhooks from Lipana include an X-Lipana-Signature header that you can use to verify the authenticity of the request. This ensures that the webhook is actually coming from Lipana and hasn't been tampered with.
+
+📋 Getting Your Webhook Secret
+
+Your webhook secret can be found in your dashboard under Webhooks settings. Keep this secret secure and never expose it in client-side code.
+
+How It Works
+
+Lipana generates an HMAC-SHA256 signature of the webhook payload using your webhook secret. The signature is sent in the X-Lipana-Signature header. You should verify this signature on your server before processing the webhook.
+
+Verification Steps
+Extract the X-Lipana-Signature header from the incoming request
+Get the raw request body as a string (before JSON parsing)
+Compute HMAC-SHA256 of the body using your webhook secret
+Compare the computed signature with the header value using constant-time comparison
+If they match, the webhook is authentic. If not, reject the request with a 401 status.
+Security Best Practices
+Always verify signatures: Never process webhooks without verifying the signature first
+Use constant-time comparison: Use timing-safe comparison functions to prevent timing attacks
+Store secrets securely: Keep your webhook secret in environment variables, never in code
+Get raw body: Use the raw request body (before JSON parsing) for signature verification
+Reject invalid requests: Return 401 Unauthorized for any webhook with invalid or missing signatures
+Log verification failures: Log failed verification attempts for security monitoring
+Code Examples
+
+Sample implementations in popular programming languages.
+
+Create Payment Link
+cURL
+terminal
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+curl -X POST https://api.lipana.dev/v1/payment-links \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY" \
+  -H "Content-Type: application/json" \
+  -d ___STRING_START___'{
+    "title": "Premium Subscription",
+    "description": "Monthly premium subscription",
+    "amount": 5000,
+    "currency": "KES",
+    "allowCustomAmount": false,
+    "successRedirectUrl": "https://yourwebsite.com/success"
+  }'___STRING_END___
+JavaScript/Node.js
+create-payment.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+const axios = require('axios');
+
+const createPaymentLink = async () => {
+  try {
+    const response = await axios.post(
+      'https://api.lipana.dev/v1/payment-links',
+      {
+        title: 'Premium Subscription',
+        description: 'Monthly premium subscription',
+        amount: 5000,
+        currency: 'KES',
+        allowCustomAmount: false,
+        successRedirectUrl: 'https://yourwebsite.com/success'
+      },
+      {
+        headers: {
+          'x-api-key': 'lip_sk_live_YOUR_SECRET_KEY',
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    console.log('Payment link created:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error.response?.data || error.message);
+    throw error;
+  }
+};
+
+createPaymentLink();
+Python
+create-payment.py
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+import requests
+import json
+
+def create_payment_link():
+    url = 'https://api.lipana.dev/v1/payment-links'
+    headers = {
+        'x-api-key': 'lip_sk_live_YOUR_SECRET_KEY',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'title': 'Premium Subscription',
+        'description': 'Monthly premium subscription',
+        'amount': 5000,
+        'currency': 'KES',
+        'allowCustomAmount': False,
+        'successRedirectUrl': 'https://yourwebsite.com/success'
+    }
+    
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()
+        result = response.json()
+        print(f'Payment link created: {result["url"]}')
+        return result
+    except requests.exceptions.RequestException as error:
+        print(f'Error: {error}')
+        raise
+
+create_payment_link()
+PHP
+create-payment.php
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+<?php
+
+function createPaymentLink() {
+    $url = 'https://api.lipana.dev/v1/payment-links';
+    $data = [
+        'title' => 'Premium Subscription',
+        'description' => 'Monthly premium subscription',
+        'amount' => 5000,
+        'currency' => 'KES',
+        'allowCustomAmount' => false,
+        'successRedirectUrl' => 'https://yourwebsite.com/success'
+    ];
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'x-api-key: lip_sk_live_YOUR_SECRET_KEY',
+        'Content-Type: application/json'
+    ]);
+    
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($httpCode === 200 || $httpCode === 201) {
+        $result = json_decode($response, true);
+        echo "Payment link created: " . $result['url'];
+        return $result;
+    } else {
+        throw new Exception("Error creating payment link: " . $response);
+    }
+}
+
+createPaymentLink();
+?>
+Ruby
+create-payment.rb
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+require 'net/http'
+require 'uri'
+require 'json'
+
+def create_payment_link
+  uri = URI('https://api.lipana.dev/v1/payment-links')
+  
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  
+  request = Net::HTTP::Post.new(uri.path, {
+    'x-api-key' => 'lip_sk_live_YOUR_SECRET_KEY',
+    'Content-Type' => 'application/json'
+  })
+  
+  request.body = {
+    title: 'Premium Subscription',
+    description: 'Monthly premium subscription',
+    amount: 5000,
+    currency: 'KES',
+    allowCustomAmount: false,
+    successRedirectUrl: 'https://yourwebsite.com/success'
+  }.to_json
+  
+  response = http.request(request)
+  
+  if response.code.to_i == 200 || response.code.to_i == 201
+    result = JSON.parse(response.body)
+    puts "Payment link created: #{result['url']}"
+    result
+  else
+    raise "Error creating payment link: #{response.body}"
+  end
+end
+
+create_payment_link
+Go
+create-payment.go
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "io/ioutil"
+    "net/http"
+)
+
+type PaymentLink struct {
+    Title              string `json:"title"`
+    Description        string `json:"description"`
+    Amount             int    `json:"amount"`
+    Currency           string `json:"currency"`
+    AllowCustomAmount  bool   `json:"allowCustomAmount"`
+    SuccessRedirectURL string `json:"successRedirectUrl"`
+}
+
+func createPaymentLink() error {
+    url := "https://api.lipana.dev/v1/payment-links"
+    
+    paymentLink := PaymentLink{
+        Title:              "Premium Subscription",
+        Description:        "Monthly premium subscription",
+        Amount:             5000,
+        Currency:           "KES",
+        AllowCustomAmount:  false,
+        SuccessRedirectURL: "https://yourwebsite.com/success",
+    }
+    
+    jsonData, err := json.Marshal(paymentLink)
+    if err != nil {
+        return fmt.Errorf("error marshaling JSON: %v", err)
+    }
+    
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+    if err != nil {
+        return fmt.Errorf("error creating request: %v", err)
+    }
+    
+    req.Header.Set("x-api-key", "lip_sk_live_YOUR_SECRET_KEY")
+    req.Header.Set("Content-Type", "application/json")
+    
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        return fmt.Errorf("error making request: %v", err)
+    }
+    defer resp.Body.Close()
+    
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return fmt.Errorf("error reading response: %v", err)
+    }
+    
+    if resp.StatusCode == 200 || resp.StatusCode == 201 {
+        var result map[string]interface{}
+        json.Unmarshal(body, &result)
+        fmt.Printf("Payment link created: %s\n", result["url"])
+        return nil
+    }
+    
+    return fmt.Errorf("error creating payment link: %s", string(body))
+}
+
+func main() {
+    if err := createPaymentLink(); err != nil {
+        fmt.Println(err)
+    }
+}
+List Transactions
+cURL
+terminal
+1
+2
+3
+4
+5
+6
+7
+# List all transactions
+curl -X GET https://api.lipana.dev/v1/transactions \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY"
+
+# List with filters
+curl -X GET "https://api.lipana.dev/v1/transactions?status=success&limit=50" \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY"
+JavaScript/Node.js
+list-transactions.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+const axios = require('axios');
+
+async function listTransactions(filters = {}) {
+  try {
+    const response = await axios.get(
+      'https://api.lipana.dev/v1/transactions',
+      {
+        headers: {
+          'x-api-key': 'lip_sk_live_YOUR_SECRET_KEY'
+        },
+        params: filters // { status: 'success', limit: 50 }
+      }
+    );
+    
+    console.log(`Found ${response.data.length} transactions`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching transactions:', error.message);
+    throw error;
+  }
+}
+
+// Usage
+listTransactions({ status: 'success', limit: 50 });
+Webhook Handler with Signature Verification
+Express.js (Node.js)
+webhook-handler.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+const express = require('express');
+const crypto = require('crypto');
+
+const app = express();
+
+// Middleware to capture raw body for signature verification
+app.use('/webhook', express.raw({ type: 'application/json' }));
+
+// Webhook endpoint with signature verification
+app.post('/webhook', (req, res) => {
+  try {
+    const signature = req.headers['x-lipana-signature'];
+    
+    if (!signature) {
+      console.log('Missing X-Lipana-Signature header');
+      return res.status(401).send('Unauthorized');
+    }
+    
+    // Get raw body as string
+    const payload = req.body.toString();
+    
+    // Verify signature
+    const expectedSignature = crypto
+      .createHmac('sha256', process.env.LIPANA_WEBHOOK_SECRET)
+      .update(payload)
+      .digest('hex');
+    
+    // Use constant-time comparison to prevent timing attacks
+    if (!crypto.timingSafeEqual(
+      Buffer.from(signature),
+      Buffer.from(expectedSignature)
+    )) {
+      console.log('Invalid webhook signature');
+      return res.status(401).send('Unauthorized');
+    }
+    
+    // Parse the verified payload
+    const data = JSON.parse(payload);
+    const { event, data: eventData } = data;
+    
+    // Process webhook based on event type
+    switch (event) {
+      case 'transaction.success':
+        console.log('Transaction successful:', eventData.transaction_id);
+        // Update your database, send confirmation email, etc.
+        break;
+        
+      case 'transaction.failed':
+        console.log('Transaction failed:', eventData.transaction_id);
+        // Handle failed transaction
+        break;
+        
+      case 'transaction.cancelled':
+        console.log('Transaction cancelled:', eventData.transaction_id);
+        // Handle cancelled transaction
+        break;
+        
+      default:
+        console.log('Unknown event:', event);
+    }
+    
+    res.status(200).json({ received: true });
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Webhook server listening on port 3000');
+});
+Flask (Python)
+webhook-handler.py
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+from flask import Flask, request, jsonify
+import hmac
+import hashlib
+import json
+import os
+
+app = Flask(__name__)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    try:
+        signature = request.headers.get('X-Lipana-Signature')
+        
+        if not signature:
+            print('Missing X-Lipana-Signature header')
+            return jsonify({'error': 'Unauthorized'}), 401
+        
+        # Get raw body as bytes
+        payload = request.get_data()
+        
+        # Verify signature
+        webhook_secret = os.getenv('LIPANA_WEBHOOK_SECRET')
+        expected_signature = hmac.new(
+            webhook_secret.encode(),
+            payload,
+            hashlib.sha256
+        ).hexdigest()
+        
+        # Use constant-time comparison to prevent timing attacks
+        if not hmac.compare_digest(signature, expected_signature):
+            print('Invalid webhook signature')
+            return jsonify({'error': 'Unauthorized'}), 401
+        
+        # Parse the verified payload
+        data = json.loads(payload)
+        event = data.get('event')
+        event_data = data.get('data')
+        
+        # Process webhook based on event type
+        if event == 'transaction.success':
+            print(f'Transaction successful: {event_data["transaction_id"]}')
+            # Update your database, send confirmation email, etc.
+        elif event == 'transaction.failed':
+            print(f'Transaction failed: {event_data["transaction_id"]}')
+            # Handle failed transaction
+        elif event == 'transaction.cancelled':
+            print(f'Transaction cancelled: {event_data["transaction_id"]}')
+            # Handle cancelled transaction
+        else:
+            print(f'Unknown event: {event}')
+        
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        print(f'Webhook processing error: {e}')
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+if __name__ == '__main__':
+    app.run(port=3000)
+PHP
+webhook-handler.php
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+<?php
+// webhook.php
+
+$webhook_secret = getenv('LIPANA_WEBHOOK_SECRET');
+$signature = $_SERVER['HTTP_X_LIPANA_SIGNATURE'] ?? '';
+
+if (empty($signature)) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+// Get raw request body
+$payload = file_get_contents('php://input');
+
+// Verify signature
+$expected_signature = hash_hmac('sha256', $payload, $webhook_secret);
+
+// Use constant-time comparison to prevent timing attacks
+if (!hash_equals($expected_signature, $signature)) {
+    error_log('Invalid webhook signature');
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
+
+// Parse the verified payload
+$data = json_decode($payload, true);
+$event = $data['event'] ?? '';
+$event_data = $data['data'] ?? [];
+
+// Process webhook based on event type
+switch ($event) {
+    case 'transaction.success':
+        error_log('Transaction successful: ' . $event_data['transaction_id']);
+        // Update your database, send confirmation email, etc.
+        break;
+        
+    case 'transaction.failed':
+        error_log('Transaction failed: ' . $event_data['transaction_id']);
+        // Handle failed transaction
+        break;
+        
+    case 'transaction.cancelled':
+        error_log('Transaction cancelled: ' . $event_data['transaction_id']);
+        // Handle cancelled transaction
+        break;
+        
+    default:
+        error_log('Unknown event: ' . $event);
+}
+
+http_response_code(200);
+echo json_encode(['status' => 'success']);
+?>
+Ruby (Sinatra)
+webhook-handler.rb
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+require 'sinatra'
+require 'json'
+require 'openssl'
+
+set :port, 3000
+
+post '/webhook' do
+  webhook_secret = ENV['LIPANA_WEBHOOK_SECRET']
+  signature = request.env['HTTP_X_LIPANA_SIGNATURE']
+  
+  if signature.nil?
+    status 401
+    return { error: 'Unauthorized' }.to_json
+  end
+  
+  # Get raw request body
+  payload = request.body.read
+  
+  # Verify signature
+  expected_signature = OpenSSL::HMAC.hexdigest(
+    OpenSSL::Digest.new('sha256'),
+    webhook_secret,
+    payload
+  )
+  
+  # Use constant-time comparison to prevent timing attacks
+  unless ActiveSupport::SecurityUtils.secure_compare(signature, expected_signature)
+    puts 'Invalid webhook signature'
+    status 401
+    return { error: 'Unauthorized' }.to_json
+  end
+  
+  # Parse the verified payload
+  data = JSON.parse(payload)
+  event = data['event']
+  event_data = data['data']
+  
+  # Process webhook based on event type
+  case event
+  when 'transaction.success'
+    puts "Transaction successful: #{event_data['transaction_id']}"
+    # Update your database, send confirmation email, etc.
+  when 'transaction.failed'
+    puts "Transaction failed: #{event_data['transaction_id']}"
+    # Handle failed transaction
+  when 'transaction.cancelled'
+    puts "Transaction cancelled: #{event_data['transaction_id']}"
+    # Handle cancelled transaction
+  else
+    puts "Unknown event: #{event}"
+  end
+  
+  status 200
+  { status: 'success' }.to_json
+end
+Initiate STK Push
+cURL
+terminal
+1
+2
+3
+4
+5
+6
+7
+curl -X POST https://api.lipana.dev/v1/transactions/push-stk \
+  -H "x-api-key: lip_sk_live_YOUR_SECRET_KEY" \
+  -H "Content-Type: application/json" \
+  -d ___STRING_START___'{
+    "phone": "+254712345678",
+    "amount": 5000
+  }'___STRING_END___
+JavaScript/Node.js
+stk-push.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+const axios = require('axios');
+
+async function initiateStkPush(phone, amount) {
+  try {
+    const response = await axios.post(
+      'https://api.lipana.dev/v1/transactions/push-stk',
+      {
+        phone: phone,
+        amount: amount
+      },
+      {
+        headers: {
+          'x-api-key': 'lip_sk_live_YOUR_SECRET_KEY',
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    
+    console.log('STK push initiated:', response.data);
+    console.log('Transaction ID:', response.data.data.transactionId);
+    console.log('Checkout Request ID:', response.data.data.checkoutRequestID);
+    return response.data;
+  } catch (error) {
+    console.error('Error initiating STK push:', error.response?.data || error.message);
+    throw error;
+  }
+}
+
+// Usage
+initiateStkPush('+254712345678', 5000);
+Python
+stk-push.py
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+import requests
+
+def initiate_stk_push(phone, amount):
+    url = 'https://api.lipana.dev/v1/transactions/push-stk'
+    headers = {
+        'x-api-key': 'lip_sk_live_YOUR_SECRET_KEY',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'phone': phone,
+        'amount': amount
+    }
+    
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response.raise_for_status()
+        result = response.json()
+        print(f'STK push initiated: {result["data"]["transactionId"]}')
+        print(f'Checkout Request ID: {result["data"]["checkoutRequestID"]}')
+        return result
+    except requests.exceptions.RequestException as error:
+        print(f'Error: {error}')
+        raise
+
+# Usage
+initiate_stk_push('+254712345678', 5000)
+PHP
+stk-push.php
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+<?php
+
+function initiateStkPush($phone, $amount) {
+    $url = 'https://api.lipana.dev/v1/transactions/push-stk';
+    $data = [
+        'phone' => $phone,
+        'amount' => $amount
+    ];
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'x-api-key: lip_sk_live_YOUR_SECRET_KEY',
+        'Content-Type: application/json'
+    ]);
+    
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($httpCode === 200 || $httpCode === 201) {
+        $result = json_decode($response, true);
+        echo "STK push initiated: " . $result['data']['transactionId'] . "\n";
+        echo "Checkout Request ID: " . $result['data']['checkoutRequestID'] . "\n";
+        return $result;
+    } else {
+        throw new Exception("Error initiating STK push: " . $response);
+    }
+}
+
+// Usage
+initiateStkPush('+254712345678', 5000);
+?>
+Best Practices
+
+Follow these best practices to ensure secure and reliable integration with Lipana.
+
+Security
+Store API Keys Securely
+
+Never hardcode API keys in your source code. Always use environment variables or secure secret management systems.
+
+.env.example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+# .env file (add to .gitignore)
+LIPANA_API_KEY=lip_sk_live_YOUR_SECRET_KEY
+LIPANA_WEBHOOK_SECRET=your_webhook_secret_here
+
+# Node.js
+require('dotenv').config();
+const apiKey = process.env.LIPANA_API_KEY;
+
+# Python
+import os
+api_key = os.getenv('LIPANA_API_KEY')
+
+# PHP
+$api_key = getenv('LIPANA_API_KEY');
+
+# Ruby
+api_key = ENV['LIPANA_API_KEY']
+Use Secret Keys Only on the Server
+
+Secret keys (lip_sk_*) should only be used in server-side code. For client-side applications, use publishable keys (lip_pk_*) when available.
+
+Verify Webhook Signatures
+
+Always verify webhook signatures before processing webhook events. This ensures the request is authentic and hasn't been tampered with.
+
+Never Commit Secrets to Version Control
+
+Add .env to your .gitignore file and use environment-specific configuration files.
+
+Error Handling
+Handle API Errors Gracefully
+
+Always implement proper error handling for API requests. Check HTTP status codes and handle different error scenarios appropriately.
+
+error-handling.js
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+// Node.js example
+try {
+  const response = await axios.post(url, data, { headers });
+  
+  if (response.status >= 200 && response.status < 300) {
+    // Success
+    return response.data;
+  } else {
+    // Handle non-2xx responses
+    throw new Error(`API returned status ${response.status}`);
+  }
+} catch (error) {
+  if (error.response) {
+    // API responded with error
+    console.error('API Error:', error.response.status, error.response.data);
+  } else if (error.request) {
+    // Request made but no response
+    console.error('Network Error:', error.message);
+  } else {
+    // Something else happened
+    console.error('Error:', error.message);
+  }
+  throw error;
+}
+Implement Retry Logic
+
+For critical operations, implement exponential backoff retry logic for transient failures (network issues, rate limits, etc.).
+
+Log Errors Appropriately
+
+Log errors with sufficient context for debugging, but avoid logging sensitive information like API keys or customer data.
+
+Performance
+Use Webhooks Instead of Polling
+
+Instead of repeatedly polling for transaction status, use webhooks to receive real-time notifications when events occur.
+
+Implement Request Timeouts
+
+Set appropriate timeout values for API requests to prevent your application from hanging on slow or unresponsive requests.
+
+Cache Static Data
+
+Cache frequently accessed but rarely changing data (like payment link details) to reduce API calls and improve response times.
+
+Testing
+Use Sandbox Environment
+
+Always test your integration in the sandbox environment before going live. Use test API keys and test phone numbers.
+
+testing.js
+1
+2
+3
+4
+5
+6
+7
+8
+// Use sandbox keys for testing
+const API_KEY = process.env.NODE_ENV === 'production' 
+  ? process.env.LIPANA_LIVE_API_KEY
+  : process.env.LIPANA_SANDBOX_API_KEY;
+
+// Test phone numbers (sandbox only)
+const TEST_PHONE = '+254708374149'; // Always returns success
+const TEST_PHONE_FAIL = '+254708374150'; // Always returns failure
+Test Webhook Endpoints
+
+Use the test webhook feature in your dashboard to verify your webhook endpoint is working correctly before processing real transactions.
+
+Handle Edge Cases
+
+Test edge cases like network failures, invalid responses, duplicate webhooks, and transaction timeouts to ensure your application handles them gracefully.
+
+General Guidelines
+Always validate user input before sending API requests
+Use HTTPS for all API communications (required by Lipana)
+Keep your integration libraries and dependencies up to date
+Monitor your API usage and set up alerts for unusual activity
+Implement idempotency for critical operations to prevent duplicate processing
+Return appropriate HTTP status codes from your webhook endpoints (200 for success)
+Respond to webhooks quickly (within 5 seconds) to avoid timeouts
+Store transaction references in your database for reconciliation
+Implement proper logging and monitoring for production environments
+Review and update your integration regularly as new features are released
+Ready to Get Started?
+
+Create your account and start accepting M-Pesa payments today.
+
+Get Started Free
+Contact Support
